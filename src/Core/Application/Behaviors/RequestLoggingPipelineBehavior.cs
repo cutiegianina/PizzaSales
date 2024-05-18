@@ -1,43 +1,34 @@
-﻿using Domain.Result;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using Serilog.Context;
 
 namespace Application.Behaviors;
 
-internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TResponse> 
-    where TRequest  : class
-    where TResponse : Result
+internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : class
 {
     private readonly ILogger<RequestLoggingPipelineBehavior<TRequest, TResponse>> _logger;
 
-    public RequestLoggingPipelineBehavior(ILogger<RequestLoggingPipelineBehavior<TRequest, TResponse>> logger) =>
-        _logger = logger;
-
-    public async Task<TResponse> Handle(
-        TRequest request,
-        RequestHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken)
+    public RequestLoggingPipelineBehavior(ILogger<RequestLoggingPipelineBehavior<TRequest, TResponse>> logger)
     {
-        string requestName = typeof(TRequest).Name;
+        _logger = logger;
+    }
+
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    {
+        var requestName = typeof(TRequest).Name;
 
         _logger.LogInformation("Processing request {RequestName}", requestName);
 
-        TResponse result = await next();
-
-        if (result.IsSuccess)
+        try
         {
-            _logger.LogInformation("Completed request {RequestName}", requestName);
+            TResponse response = await next();
+            _logger.LogInformation("Completed request {RequestName} successfully", requestName);
+            return response;
         }
-        else
+        catch (Exception ex)
         {
-            using (LogContext.PushProperty("Error", result.Error, true))
-            {
-                _logger.LogError("Completed request {RequestName} with error", requestName);
-            }
+            _logger.LogError(ex, "Request {RequestName} failed", requestName);
+            throw;
         }
-
-        return result;
     }
 }

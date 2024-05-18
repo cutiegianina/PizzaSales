@@ -7,9 +7,9 @@ using Domain.Entities;
 using Mapster;
 
 namespace Application.Orders.Commands;
-public sealed record InsertOrdersFromCsvCommand(Stream Stream) : IRequest<int>;
+public sealed record InsertOrdersFromCsvCommand(Stream Stream) : IRequest<List<OrderDto>>;
 
-internal sealed class InsertOrdersFromCsvCommandHandler : IRequestHandler<InsertOrdersFromCsvCommand, int>
+internal sealed class InsertOrdersFromCsvCommandHandler : IRequestHandler<InsertOrdersFromCsvCommand, List<OrderDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICsvImportService<OrderDto, OrderCsvMap> _csvImportService;
@@ -20,7 +20,7 @@ internal sealed class InsertOrdersFromCsvCommandHandler : IRequestHandler<Insert
         _context = context;
         _csvImportService = csvImportService;
     }
-    public async Task<int> Handle(InsertOrdersFromCsvCommand request, CancellationToken cancellationToken)
+    public async Task<List<OrderDto>> Handle(InsertOrdersFromCsvCommand request, CancellationToken cancellationToken)
     {
         var orderDtos = await _csvImportService.ImportCsvAsync(request.Stream);
 
@@ -33,6 +33,6 @@ internal sealed class InsertOrdersFromCsvCommandHandler : IRequestHandler<Insert
 
         await _context.ExecuteSqlRawAsync("SET IDENTITY_INSERT Orders OFF");
         await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
-        return insertedData;
+        return orderDtos;
     }
 }

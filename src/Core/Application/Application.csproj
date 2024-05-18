@@ -23,11 +23,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="OrderDetails\Queries\" />
-    <Folder Include="Orders\Queries\" />
-    <Folder Include="Pizzas\Queries\" />
-    <Folder Include="PizzaTypes\Queries\" />
-  </ItemGroup>
-
 </Project>

@@ -7,9 +7,9 @@ using Mapster;
 using MediatR;
 
 namespace Application.Pizzas.Commands;
-public sealed record InsertPizzasFromCsvCommand(Stream Stream) : IRequest<int>;
+public sealed record InsertPizzasFromCsvCommand(Stream Stream) : IRequest<List<PizzaDto>>;
 
-internal sealed class InsertPizzasFromCsvCommandHandler : IRequestHandler<InsertPizzasFromCsvCommand, int>
+internal sealed class InsertPizzasFromCsvCommandHandler : IRequestHandler<InsertPizzasFromCsvCommand, List<PizzaDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICsvImportService<PizzaDto, PizzaCsvMap> _csvImportService;
@@ -20,11 +20,12 @@ internal sealed class InsertPizzasFromCsvCommandHandler : IRequestHandler<Insert
         _context = context;
         _csvImportService = csvImportService;
     }
-    public async Task<int> Handle(InsertPizzasFromCsvCommand request, CancellationToken cancellationToken)
+    public async Task<List<PizzaDto>> Handle(InsertPizzasFromCsvCommand request, CancellationToken cancellationToken)
     {
         var pizzaDtos = await _csvImportService.ImportCsvAsync(request.Stream);
         var pizzas = pizzaDtos.Adapt<List<Pizza>>();
         await _context.Pizza.AddRangeAsync(pizzas, cancellationToken);
-        return await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+        return pizzaDtos;
     }
 }

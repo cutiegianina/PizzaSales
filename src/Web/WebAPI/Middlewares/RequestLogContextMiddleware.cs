@@ -4,15 +4,28 @@ namespace WebAPI.Middlewares;
 public class RequestLogContextMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ILogger<RequestLogContextMiddleware> _logger;
 
-    public RequestLogContextMiddleware(RequestDelegate next) =>
-        _next = next;
-
-    public Task InvokeAsync(HttpContext context)
+    public RequestLogContextMiddleware(
+        RequestDelegate next,
+        ILogger<RequestLogContextMiddleware> logger)
     {
-        using (LogContext.PushProperty("CorrelationId", context.TraceIdentifier))
+        _next = next;
+        _logger = logger;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
         {
-            return _next(context);
+            using (LogContext.PushProperty("CorrelationId", context.TraceIdentifier))
+            {
+                await _next(context);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An unhandled exception occured while processing the request.");
         }
     }
 }

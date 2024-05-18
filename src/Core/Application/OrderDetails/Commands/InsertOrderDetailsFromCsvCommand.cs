@@ -7,9 +7,9 @@ using MediatR;
 using Mapster;
 
 namespace Application.OrderDetails.Commands;
-public sealed record InsertOrderDetailsFromCsvCommand(Stream Stream) : IRequest<int>;
+public sealed record InsertOrderDetailsFromCsvCommand(Stream Stream) : IRequest<List<OrderDetailDto>>;
 
-internal sealed class InsertOrderDetailsFromCsvCommandHandler : IRequestHandler<InsertOrderDetailsFromCsvCommand, int>
+internal sealed class InsertOrderDetailsFromCsvCommandHandler : IRequestHandler<InsertOrderDetailsFromCsvCommand, List<OrderDetailDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICsvImportService<OrderDetailDto, OrderDetailCsvMap> _csvImportService;
@@ -20,7 +20,7 @@ internal sealed class InsertOrderDetailsFromCsvCommandHandler : IRequestHandler<
         _context = context;
         _csvImportService = csvImportService;
     }
-    public async Task<int> Handle(InsertOrderDetailsFromCsvCommand request, CancellationToken cancellationToken)
+    public async Task<List<OrderDetailDto>> Handle(InsertOrderDetailsFromCsvCommand request, CancellationToken cancellationToken)
     {
         var orderDetailDtos = await _csvImportService.ImportCsvAsync(request.Stream);
 
@@ -33,6 +33,6 @@ internal sealed class InsertOrderDetailsFromCsvCommandHandler : IRequestHandler<
 
         await _context.ExecuteSqlRawAsync("SET IDENTITY_INSERT OrderDetails OFF");
         await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
-        return insertedData;
+        return orderDetailDtos;
     }
 }

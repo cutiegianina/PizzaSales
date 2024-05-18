@@ -1,0 +1,127 @@
+# .NET Core
+bin/
+obj/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+*.pdb
+*.cache
+*.ide
+*.log
+*.vs/
+.vscode/
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.svclog
+*.nupkg
+*.snk
+*.vscode/
+.git/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# Build results
+bin/
+obj/
+
+# Dependency directories
+packages/
+.vscode/
+
+# Rider
+.idea/
+.idea_modules/
+
+# NuGet
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Entity Framework
+*.mdf
+*.ldf
+*.ndf
+
+# Code analysis
+*.ruleset
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Build Directories
+_build/
+logs/
+service/Release/
+
+# Local history for Visual Studio
+.vs/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (Mono Auto Generated)
+mono_crash.*
+
+# Auto generated files
+*.generated.cs
+
+# Dotnet tool settings
+.dotnet_tools/
+.dotnet_tools_cache/
+.dotnet_tools_autorestore/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+__MACOSX
+ehthumbs.db
+Thumbs.db
+
+# Rider
+.idea/
+
+# Logs
+logs/
+
+# NuGet
+.nuget/
+
+# Crash reports
+*.stacktrace
+
+# Visual Studio Code
+.vscode/
+
+# Coverlet
+coverage.opencover.xml
+coverage.cobertura.xml
+coverage.json
+lcov-report/

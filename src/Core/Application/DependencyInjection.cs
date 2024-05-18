@@ -1,4 +1,6 @@
 ﻿using Application.Behaviors;
+using Application.Common.Mappings;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -12,7 +14,8 @@ public static class DependencyInjection
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             config.AddOpenBehavior(typeof(RequestLoggingPipelineBehavior<,>));
         });
-
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestLoggingPipelineBehavior<,>));
+        MapsterConfiguration.ConfigureMappings();
         return services;
     }
 }

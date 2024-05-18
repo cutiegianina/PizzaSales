@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data.Interceptors;
+using Application.Common.Interfaces;
+using Infrastructure.Services;
 
 namespace Infrastructure;
 public static class DependencyInjection
@@ -22,6 +24,7 @@ public static class DependencyInjection
         });
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         services.AddScoped<OrderDateTimeInterceptor>();
+        services.AddScoped(typeof(ICsvImportService<,>), typeof(CsvImportService<,>));
         return services;
     }
 }

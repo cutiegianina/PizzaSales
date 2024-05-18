@@ -8,6 +8,9 @@ public class PizzaTypeConfiguration : IEntityTypeConfiguration<PizzaType>
     public void Configure(EntityTypeBuilder<PizzaType> builder)
     {
         builder.ToTable("PizzaTypes");
+
+        builder.HasKey(p => p.PizzaTypeId);
+
         builder
             .Property(p => p.PizzaTypeId)
             .IsRequired();

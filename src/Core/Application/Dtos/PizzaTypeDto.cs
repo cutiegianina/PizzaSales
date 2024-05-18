@@ -1,5 +1,6 @@
-﻿namespace Domain.Entities;
-public class PizzaType
+﻿namespace Application.Dtos;
+
+public class PizzaTypeDto
 {
     public string PizzaTypeId { get; set; }
     public string? Name { get; set; }

@@ -9,6 +9,8 @@ public class PizzaConfiguration : IEntityTypeConfiguration<Pizza>
     {
         builder.ToTable("Pizzas");
 
+        builder.HasKey(p => p.PizzaId);
+
         builder
             .Property(p => p.PizzaId)
             .IsRequired();

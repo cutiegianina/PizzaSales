@@ -20,10 +20,16 @@ public class OrderDateTimeInterceptor : SaveChangesInterceptor
 
         foreach (var entry in entries)
         {
+            var orderDateCurrentValue = entry.Property(x => x.OrderDate);
+            var orderTimeCurrentValue = entry.Property(x => x.OrderTime);
+
             if (entry.State == EntityState.Added)
             {
-                entry.Property(x => x.OrderDate).CurrentValue = DateTime.UtcNow;
-                entry.Property(x => x.OrderTime).CurrentValue = DateTime.UtcNow.TimeOfDay;
+                if (orderDateCurrentValue.CurrentValue == DateTime.MinValue)
+                    orderDateCurrentValue.CurrentValue = DateTime.Today;
+
+                if (orderTimeCurrentValue.CurrentValue == TimeSpan.Zero)
+                    orderTimeCurrentValue.CurrentValue = DateTime.Now.TimeOfDay;
             }
         }
 

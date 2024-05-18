@@ -9,9 +9,12 @@ public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
     {
         builder.ToTable("OrderDetails");
 
+        builder.HasKey(p => p.OrderDetailId);
+
         builder
             .Property(p => p.OrderDetailId)
-            .IsRequired();
+            .IsRequired()
+            .ValueGeneratedOnAdd();
 
         builder
             .HasOne(p => p.Order)

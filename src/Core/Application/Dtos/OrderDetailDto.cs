@@ -1,5 +1,7 @@
-﻿namespace Domain.Entities;
-public class OrderDetail
+﻿using Domain.Entities;
+
+namespace Application.Dtos;
+public class OrderDetailDto
 {
     public int OrderDetailId { get; set; }
     public int OrderId { get; set; }

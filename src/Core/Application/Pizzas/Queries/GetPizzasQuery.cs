@@ -15,7 +15,10 @@ internal sealed class GetPizzaQueryHandler : IRequestHandler<GetPizzasQuery, Lis
         _context = context;
     public async Task<List<PizzaDto>> Handle(GetPizzasQuery request, CancellationToken cancellationToken)
     {
-        var pizzas = await _context.Pizza.AsNoTracking().ToListAsync();
+        var pizzas = await _context.Pizza
+                        .Include(p => p.PizzaType)
+                        .AsNoTracking()
+                        .ToListAsync();
         return pizzas.Adapt<List<PizzaDto>>();
     }
 }

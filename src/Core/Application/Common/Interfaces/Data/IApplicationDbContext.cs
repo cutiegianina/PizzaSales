@@ -12,4 +12,5 @@ public interface IApplicationDbContext
     DbSet<PizzaType> PizzaType { get; set;}
     DbSet<Order> Order { get; set; }
     DbSet<OrderDetail> OrderDetail { get; set; }
+    DbSet<Customer> Customer { get; set; }
 }

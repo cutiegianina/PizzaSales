@@ -11,6 +11,5 @@ public class PizzaCsvMap : ClassMap<PizzaDto>
         Map(p => p.PizzaTypeId).Name("pizza_type_id");
         Map(p => p.Size).Name("size");
         Map(p => p.Price).Name("price");
-        Map(p => p.PizzaType).Optional();
     }
 }

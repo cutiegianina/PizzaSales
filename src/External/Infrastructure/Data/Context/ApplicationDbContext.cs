@@ -25,4 +25,5 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<PizzaType> PizzaType { get; set; }
     public DbSet<Order> Order { get; set; }
     public DbSet<OrderDetail> OrderDetail { get; set; }
+    public DbSet<Customer> Customer { get; set; }
 }

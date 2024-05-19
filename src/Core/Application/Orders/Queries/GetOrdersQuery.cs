@@ -16,7 +16,11 @@ internal sealed class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, Li
         _context = context;
     public async Task<List<OrderDto>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
     {
-        var orders = await _context.Order.AsNoTracking().ToListAsync();
+        var orders = await _context.Order
+                        .Include(p => p.Customer)
+                        .Include(p => p.PaymentMethod)
+                        .AsNoTracking()
+                        .ToListAsync();
         return orders.Adapt<List<OrderDto>>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Application.Dtos;
-using Application.OrderDetails.Queries;
 using Application.Orders.Commands;
+using Application.Orders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,7 @@ public class OrderController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<OrderDto>>> Get()
     {
-        var orders = await _mediator.Send(new GetOrderDetailsQuery());
+        var orders = await _mediator.Send(new GetOrdersQuery());
         if (orders is null)
             return NotFound();
 

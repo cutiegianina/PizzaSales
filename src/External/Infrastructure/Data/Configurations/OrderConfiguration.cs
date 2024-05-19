@@ -9,7 +9,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
         builder.ToTable("Orders");
 
-        builder.HasKey(x => x.OrderId);
+        builder.HasKey(p => p.OrderId);
 
         builder
             .Property(p => p.OrderId)
@@ -21,5 +21,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder
             .Property(p => p.OrderTime);
+
+        builder
+            .Property(p => p.TotalAmount)
+            .HasColumnType("decimal(18, 2)");
     }
 }
